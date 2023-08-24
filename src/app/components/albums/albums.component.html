@@ -1,33 +1,32 @@
-<div class="container">
+<div class="container-fluid">
+    <app-albums-music-navbar></app-albums-music-navbar>
     <div class="row justify-content-center">
-        <ng-container *ngIf="listMusicalGenres">
-            <div class="col-md-6 ms-3 d-flex justify-content-center">
-                <button class="btn btn-dark ms-2" *ngFor="let genre of listMusicalGenres" (click)="getAlbumsByMusic(genre.id)">{{genre.name}}</button>
-              </div>
+        <ng-container *ngIf="listAlbumsState$ | async as state" [ngSwitch]="state.dataState">
+        <ng-container *ngSwitchCase="albumsStateEnum.ERROR">
+            <div>{{state.errorMessage}}</div>
         </ng-container>
-    </div>
-    <div class="row justify-content-center">
-        <ng-container *ngIf="listAlbums">
-            <div class="card m-3 border-success bg-dark" style="width: 350px; margin-right: 10px; margin-bottom: 10px;" *ngFor="let album of listAlbums">
-                <img class="img-thumbnail img-rounded btn" alt="album.albumName" [src]="host+'/photo/'+album.id">
-                <div class="row g-0">
-                    <div class="col">
-                        <div class="card-body">
-                            <button (click)="onEditPhoto(album)">
-                                <span class="fa fa-download"></span>
-                            </button>
-                            <p *ngIf="editPhoto && currentAlbum == album">
-                                <input type="file" (change)="onSelectedFile($event)">
-                                <button class="btn btn-success mt-2" (click)="onUploadPhoto()">Upload</button>
-                            </p>
-                            <h5 class="card-title text-center text-danger">{{album.albumName}}</h5>
-                            <h5 class="card-text text-white"><small>{{album.bandName}}</small></h5>
-                            <p class="card-text text-white"><small>{{album.releaseYear}}</small></p>
-                            <p class="card-text text-success">{{album.musicalGenre.name}}</p>
+            <ng-container *ngSwitchCase="albumsStateEnum.LOADED">
+                <div class="card m-3 border-success bg-dark" style="width: 350px; margin-right: 10px; margin-bottom: 10px;" *ngFor="let album of state.albums">
+                    <img class="img-thumbnail img-rounded btn" alt="album.albumName" [src]="host+'/photo/'+album.id">
+                    <div class="row g-0">
+                        <div class="col">
+                            <div class="card-body">
+                                <button (click)="onEditPhoto(album)">
+                                    <span class="fa fa-download"></span>
+                                </button>
+                                <p *ngIf="editPhoto && currentAlbum == album">
+                                    <input type="file" (change)="onSelectedFile($event)">
+                                    <button class="btn btn-success mt-2" (click)="onUploadPhoto()">Upload</button>
+                                </p>
+                                <h5 class="card-title text-center text-danger">{{album.albumName}}</h5>
+                                <h5 class="card-text text-white"><small>{{album.bandName}}</small></h5>
+                                <p class="card-text text-white"><small>{{album.releaseYear}}</small></p>
+                                <p class="card-text text-success">{{album.musicalGenre.name}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </ng-container>
         </ng-container>
     </div>
 </div>

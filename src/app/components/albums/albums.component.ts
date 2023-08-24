@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable, map } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { Album } from 'src/app/model/album.model';
 import { MusicalGenre } from 'src/app/model/musicalgenre.model';
+import { AlbumsState, AlbumsStateEnum } from 'src/app/ngrx/albums.state';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -10,8 +13,10 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./albums.component.css']
 })
 export class AlbumsComponent implements OnInit{
-  listAlbums : Album[] | undefined;
-  listMusicalGenres : MusicalGenre[] | undefined;
+  listAlbums$ : Observable<Album[]> | null =null;
+  listAlbumsState$ : Observable<AlbumsState> | null =null;
+  readonly albumsStateEnum = AlbumsStateEnum;
+  listMusicalGenres$ : Observable<MusicalGenre[]> | null =null;
   error : string | undefined;
   host : string="";
   editPhoto : boolean | undefined
@@ -19,34 +24,24 @@ export class AlbumsComponent implements OnInit{
   currentFileUpload : any;
   selectedFile : any;
 
-  constructor(private apiService : ApiService){
+  constructor(private apiService : ApiService, private store : Store<any>){
 
   }
   ngOnInit(): void {
     this.host =environment.host;
-  this.getListAlbums();
+    this.listAlbumsState$ = this.store.pipe(
+      map((state)=> state.albumState)
+    );
   this.getListMusicalGenres();
   }
   getListAlbums(){
-    this.apiService.getAllAlbums().subscribe({
-      next : (data) => this.listAlbums = data,
-      error : (err) => this.error = "problème",
-      complete : () => this.error = "",
-    });
+    this.listAlbums$ = this.apiService.getAllAlbums();
   }
   getListMusicalGenres(){
-    this.apiService.getAllMusicalGenres().subscribe({
-      next : (data) => this.listMusicalGenres = data,
-      error : (err) => this.error = "problème",
-      complete : () => this.error = "",
-    });
+    this.listMusicalGenres$ = this.apiService.getAllMusicalGenres();
   }
   getAlbumsByMusic(id : number){
-    this.apiService.getAlbumsByMusiGenre(id).subscribe({
-      next : (data) => this.listAlbums = data,
-      error : (err) => this.error = "problème",
-      complete : () => this.error = "",
-    });
+    this.listAlbums$ = this.apiService.getAlbumsByMusiGenre(id);
   }
   onEditPhoto(album : Album){
     this.currentAlbum = album;

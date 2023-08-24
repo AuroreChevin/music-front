@@ -1,0 +1,10 @@
+<nav class = "navbar navbar-expand-sm bg-dark navbar-dark justify-content-center">
+    <ul class="navbar-nav">
+        <li>
+            <button class="btn btn-outline-success ms-2" (click)="getListAlbums()">All Albums</button>
+        </li>
+        <li *ngIf="listMusicalGenres$">
+            <button class="btn btn-outline-success ms-2" *ngFor="let genre of listMusicalGenres$ | async" (click)="getAlbumsByMusic(genre.id)">{{genre.name}}</button>
+        </li>
+    </ul>
+</nav>
