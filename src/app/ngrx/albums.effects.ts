@@ -3,7 +3,7 @@ import { ApiService } from "../services/api.service";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Observable, catchError, map, mergeMap, of } from "rxjs";
 import { Action } from "@ngrx/store";
-import { AlbumsActions, AlbumsActionsTypes, GetAlbumsByIdMusicErrorAction, GetAlbumsByIdMusicSuccessAction, GetAllAlbumsErrorAction, GetAllAlbumsSuccessAction } from "./albums.actions";
+import { AlbumsActions, AlbumsActionsTypes, GetAlbumsByIdMusicErrorAction, GetAlbumsByIdMusicSuccessAction, GetAllAlbumsErrorAction, GetAllAlbumsSuccessAction, SearchAlbumsByBandNameErrorAction, SearchAlbumsByBandNameSuccessAction } from "./albums.actions";
 
 @Injectable()
 export class AlbumsEffects {
@@ -28,6 +28,17 @@ export class AlbumsEffects {
                 return this.apiService.getAlbumsByMusiGenre(action.payload).pipe(
                     map((albums)=>new GetAlbumsByIdMusicSuccessAction(albums)),
                     catchError((err)=> of(new GetAlbumsByIdMusicErrorAction(err.message)))
+                )
+            })
+        )
+    )
+    searchAlbumsByBandName : Observable<Action> = createEffect(
+        () => this.effectActions.pipe(
+            ofType(AlbumsActionsTypes.SEARCH_ALBUMS_BY_BAND_NAME),
+            mergeMap((action : AlbumsActions)=>{
+                return this.apiService.getAlbumsByBandName(action.payload).pipe(
+                    map((albums)=> new SearchAlbumsByBandNameSuccessAction(albums)),
+                    catchError((err)=> of(new SearchAlbumsByBandNameErrorAction(err.message)))
                 )
             })
         )

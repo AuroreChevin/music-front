@@ -1,5 +1,28 @@
 <div class="container-fluid">
-    <app-albums-music-navbar></app-albums-music-navbar>
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <form class="form-inline" [formGroup]="searchForm" (ngSubmit)="onSearch(searchForm)">
+                    <span class="fs-5 d-none d-sm-inline" >Albums par nom de groupe</span>
+                  <input class="form-control mr-sm-2 mb-2 mt-2" type="text" placeholder="Taper le nom d'un groupe" aria-label="Search"formControlName="keyword" required>
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <ng-container>
+                  <div *ngIf="searchError" class="alert alert-danger mt-2">{{searchError}}</div>
+                </ng-container>
+                    <span class="fs-5 d-none d-sm-inline mt-5" >Genre musical</span>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li class="nav-item">
+                        <button class="nav-link align-middle px-0 text-success" (click)="getListAlbums()">All Albums</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link align-middle px-0 text-success"*ngFor="let genre of listMusicalGenres$ | async" (click)="getAlbumsByMusic(genre.id)">{{genre.name}}
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col py-3">
     <div class="row justify-content-center">
         <ng-container *ngIf="listAlbumsState$ | async as state" [ngSwitch]="state.dataState">
         <ng-container *ngSwitchCase="albumsStateEnum.ERROR">
@@ -19,7 +42,7 @@
                                     <button class="btn btn-success mt-2" (click)="onUploadPhoto()">Upload</button>
                                 </p>
                                 <h5 class="card-title text-center text-danger">{{album.albumName}}</h5>
-                                <h5 class="card-text text-white"><small>{{album.bandName}}</small></h5>
+                                <h5 class="card-text text-white"><small>{{album.bandName.name}}</small></h5>
                                 <p class="card-text text-white"><small>{{album.releaseYear}}</small></p>
                                 <p class="card-text text-success">{{album.musicalGenre.name}}</p>
                             </div>
@@ -29,4 +52,6 @@
             </ng-container>
         </ng-container>
     </div>
+    </div>
+</div>
 </div>

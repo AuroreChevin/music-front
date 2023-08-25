@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { Album } from 'src/app/model/album.model';
 import { MusicalGenre } from 'src/app/model/musicalgenre.model';
+import { GetAlbumsByIdMusicAction, GetAllAlbumsAction, SearchAlbumsByBandNameAction } from 'src/app/ngrx/albums.actions';
 import { AlbumsState, AlbumsStateEnum } from 'src/app/ngrx/albums.state';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -15,6 +17,8 @@ import { ApiService } from 'src/app/services/api.service';
 export class AlbumsComponent implements OnInit{
   listAlbums$ : Observable<Album[]> | null =null;
   listAlbumsState$ : Observable<AlbumsState> | null =null;
+  searchForm : FormGroup;
+  searchError : string | undefined;
   readonly albumsStateEnum = AlbumsStateEnum;
   listMusicalGenres$ : Observable<MusicalGenre[]> | null =null;
   error : string | undefined;
@@ -25,7 +29,9 @@ export class AlbumsComponent implements OnInit{
   selectedFile : any;
 
   constructor(private apiService : ApiService, private store : Store<any>){
-
+    this.searchForm = new FormGroup({
+      keyword: new FormControl()
+    })
   }
   ngOnInit(): void {
     this.host =environment.host;
@@ -35,10 +41,13 @@ export class AlbumsComponent implements OnInit{
   this.getListMusicalGenres();
   }
   getListAlbums(){
-    this.listAlbums$ = this.apiService.getAllAlbums();
+    this.store.dispatch(new GetAllAlbumsAction({}));
   }
   getListMusicalGenres(){
     this.listMusicalGenres$ = this.apiService.getAllMusicalGenres();
+  }
+  getAlbumsByMusic(id : number){
+    this.store.dispatch(new GetAlbumsByIdMusicAction(id))
   }
   onEditPhoto(album : Album){
     this.currentAlbum = album;
@@ -54,5 +63,10 @@ export class AlbumsComponent implements OnInit{
       error : (err) => this.error = "problème",
       complete : () => this.error = "",
     })
+  }
+  onSearch(searchForm : FormGroup){
+    if(searchForm.valid){
+    this.store.dispatch(new SearchAlbumsByBandNameAction(searchForm.value.keyword));
+    }
   }
 }

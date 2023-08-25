@@ -20,9 +20,13 @@ export class ApiService {
   public getAlbumsByMusiGenre(id : number): Observable<Album[]>{
     return this.http.get<Album[]>(environment.host+'/albums/musicalgenres/'+id);
   }
+  public getAlbumsByBandName(keyword : string): Observable<Album[]>{
+    return this.http.get<Album[]>(environment.host+'/albums/bandname/keyword='+keyword);
+  }
   public postAlbumsPhoto(file : File, id : number): Observable<any>{
     let formData : FormData= new FormData();
     formData.append('file', file);
     return this.http.post<any>(environment.host+'/photo/'+id, formData);
   }
+
 }

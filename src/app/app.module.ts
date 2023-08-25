@@ -11,6 +11,7 @@ import { AlbumsEffects } from './ngrx/albums.effects';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AlbumsMusicNavbarComponent } from './components/albums/albums-music-navbar/albums-music-navbar.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
     StoreModule.forRoot({albumState : AlbumsReducer}),
     EffectsModule.forRoot([AlbumsEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })

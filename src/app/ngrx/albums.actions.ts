@@ -10,6 +10,9 @@ export enum AlbumsActionsTypes{
     GET_ALBUMS_BY_ID_MUSIC_SUCCESS = "Get albums by Id music success",
     GET_ALBUMS_BY_ID_MUSIC_ERROR = "Get albums by Id music error",
 
+    SEARCH_ALBUMS_BY_BAND_NAME ="Search albums by band name",
+    SEARCH_ALBUMS_BY_BAND_NAME_SUCCESS ="Search albums by band name success",
+    SEARCH_ALBUMS_BY_BAND_NAME_EROOR ="Search albums by band name error",
 }
 export class GetAllAlbumsAction implements Action {
     type : AlbumsActionsTypes = AlbumsActionsTypes.GET_ALL_ALBUMS;
@@ -35,4 +38,18 @@ export class GetAlbumsByIdMusicErrorAction implements Action{
     type : AlbumsActionsTypes = AlbumsActionsTypes.GET_ALBUMS_BY_ID_MUSIC_ERROR;
     constructor(public payload : string){}
 }
-export type AlbumsActions = GetAllAlbumsAction | GetAllAlbumsSuccessAction | GetAllAlbumsErrorAction | GetAlbumsByIdMusicAction | GetAlbumsByIdMusicSuccessAction | GetAlbumsByIdMusicErrorAction;
+export class SearchAlbumsByBandNameAction implements Action{
+    type : AlbumsActionsTypes = AlbumsActionsTypes.SEARCH_ALBUMS_BY_BAND_NAME;
+    constructor(public payload : string){}
+}
+export class SearchAlbumsByBandNameSuccessAction implements Action{
+    type : AlbumsActionsTypes = AlbumsActionsTypes.SEARCH_ALBUMS_BY_BAND_NAME_SUCCESS;
+    constructor(public payload : Album[]){}
+}
+export class SearchAlbumsByBandNameErrorAction implements Action{
+    type : AlbumsActionsTypes = AlbumsActionsTypes.SEARCH_ALBUMS_BY_BAND_NAME_EROOR;
+    constructor(public payload : string){}
+}
+export type AlbumsActions = GetAllAlbumsAction | GetAllAlbumsSuccessAction | GetAllAlbumsErrorAction 
+            | GetAlbumsByIdMusicAction | GetAlbumsByIdMusicSuccessAction | GetAlbumsByIdMusicErrorAction
+            | SearchAlbumsByBandNameAction | SearchAlbumsByBandNameSuccessAction | SearchAlbumsByBandNameErrorAction;
