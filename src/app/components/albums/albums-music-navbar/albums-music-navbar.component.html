@@ -6,5 +6,8 @@
         <li *ngIf="listMusicalGenres$">
             <button class="btn btn-outline-success ms-2" *ngFor="let genre of listMusicalGenres$ | async" (click)="getAlbumsByMusic(genre.id)">{{genre.name}}</button>
         </li>
+        <li>
+            <button class="btn btn-outline-success ms-2" (click)="getListMusicalGenres()">All Musical Genres</button>
+        </li>
     </ul>
 </nav>

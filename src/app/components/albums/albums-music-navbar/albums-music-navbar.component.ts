@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Album } from 'src/app/model/album.model';
 import { MusicalGenre } from 'src/app/model/musicalgenre.model';
-import { GetAllAlbumsAction } from 'src/app/ngrx/albums.actions';
+import { GetAlbumsByIdMusicAction, GetAllAlbumsAction } from 'src/app/ngrx/albums.actions';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -20,13 +20,12 @@ export class AlbumsMusicNavbarComponent implements OnInit {
     this.getListMusicalGenres();
   }
   getListAlbums(){
-    console.log("coucou")
     this.store.dispatch(new GetAllAlbumsAction({}));
   }
   getListMusicalGenres(){
     this.listMusicalGenres$ = this.apiService.getAllMusicalGenres();
   }
   getAlbumsByMusic(id : number){
-    this.listAlbums$ = this.apiService.getAlbumsByMusiGenre(id);
+    this.store.dispatch(new GetAlbumsByIdMusicAction(id))
   }
 }

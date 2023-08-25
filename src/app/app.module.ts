@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -10,6 +10,7 @@ import { AlbumsReducer } from './ngrx/albums.reducer';
 import { AlbumsEffects } from './ngrx/albums.effects';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AlbumsMusicNavbarComponent } from './components/albums/albums-music-navbar/albums-music-navbar.component';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AlbumsMusicNavbarComponent } from './components/albums/albums-music-nav
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot({albumState : AlbumsReducer}),
-    EffectsModule.forRoot([AlbumsEffects])
+    EffectsModule.forRoot([AlbumsEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
   ],
   providers: [],
   bootstrap: [AppComponent]

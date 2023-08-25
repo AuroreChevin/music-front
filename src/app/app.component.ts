@@ -10,12 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent implements OnInit{
   title = 'music';
-  listAlbums$ : Observable<Album[]> | null =null;
-  error : string | undefined;
   constructor(private apiService : ApiService){}
   ngOnInit(): void {
-  }
-  getListAlbums(){
-    this.listAlbums$ = this.apiService.getAllAlbums();
   }
 }

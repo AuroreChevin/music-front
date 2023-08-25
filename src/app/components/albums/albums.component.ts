@@ -40,9 +40,6 @@ export class AlbumsComponent implements OnInit{
   getListMusicalGenres(){
     this.listMusicalGenres$ = this.apiService.getAllMusicalGenres();
   }
-  getAlbumsByMusic(id : number){
-    this.listAlbums$ = this.apiService.getAlbumsByMusiGenre(id);
-  }
   onEditPhoto(album : Album){
     this.currentAlbum = album;
     this.editPhoto = true;
