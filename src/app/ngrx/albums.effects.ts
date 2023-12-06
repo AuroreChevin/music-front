@@ -3,7 +3,7 @@ import { ApiService } from "../services/api.service";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Observable, catchError, map, mergeMap, of } from "rxjs";
 import { Action } from "@ngrx/store";
-import { AlbumsActions, AlbumsActionsTypes, GetAlbumsByIdMusicErrorAction, GetAlbumsByIdMusicSuccessAction, GetAllAlbumsErrorAction, GetAllAlbumsSuccessAction, SearchAlbumsByBandNameErrorAction, SearchAlbumsByBandNameSuccessAction } from "./albums.actions";
+import { AlbumsActions, AlbumsActionsTypes, GetAlbumsByIdMusicErrorAction, GetAlbumsByIdMusicSuccessAction, GetAlbumsPaginationSuccessAction, GetAllAlbumsErrorAction, GetAllAlbumsSuccessAction, SearchAlbumsByBandNameErrorAction, SearchAlbumsByBandNameSuccessAction } from "./albums.actions";
 
 @Injectable()
 export class AlbumsEffects {
@@ -15,6 +15,18 @@ export class AlbumsEffects {
             mergeMap((action : AlbumsActions)=> {
                 return this.apiService.getAllAlbums().pipe(
                     map((albums) => new GetAllAlbumsSuccessAction(albums)),
+                    catchError((err)=> of(new GetAllAlbumsErrorAction(err.message)))
+                    )
+            }
+            )
+        )
+    )
+    getAlbumsPaginationEffects : Observable<Action> = createEffect(
+        () => this.effectActions.pipe(
+            ofType(AlbumsActionsTypes.GET_ALBUMS_PAGINATION),
+            mergeMap((action : AlbumsActions)=> {
+                return this.apiService.getAllAlbumsPagination(action.payload).pipe(
+                    map((albums) => new GetAlbumsPaginationSuccessAction(albums)),
                     catchError((err)=> of(new GetAllAlbumsErrorAction(err.message)))
                     )
             }

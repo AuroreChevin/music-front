@@ -1,7 +1,7 @@
-import { Musicalgenre } from './musicalgenre.model';
+import { MusicalGenre } from './musicalgenre.model';
 
 describe('Musicalgenre', () => {
   it('should create an instance', () => {
-    expect(new Musicalgenre()).toBeTruthy();
+    expect( new MusicalGenre(0,'')).toBeTruthy();
   });
 });

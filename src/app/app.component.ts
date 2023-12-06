@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent implements OnInit{
   title = 'music';
-  constructor(private apiService : ApiService){}
+  constructor(){}
   ngOnInit(): void {
   }
 }

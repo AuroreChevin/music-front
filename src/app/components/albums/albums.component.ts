@@ -5,7 +5,8 @@ import { Observable, map } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { Album } from 'src/app/model/album.model';
 import { MusicalGenre } from 'src/app/model/musicalgenre.model';
-import { GetAlbumsByIdMusicAction, GetAllAlbumsAction, SearchAlbumsByBandNameAction } from 'src/app/ngrx/albums.actions';
+import { GetAlbumsByIdMusicAction, GetAlbumsPaginationAction, GetAllAlbumsAction, SearchAlbumsByBandNameAction } from 'src/app/ngrx/albums.actions';
+import { selectCountAlbums } from 'src/app/ngrx/albums.selectors';
 import { AlbumsState, AlbumsStateEnum } from 'src/app/ngrx/albums.state';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -15,10 +16,12 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./albums.component.css']
 })
 export class AlbumsComponent implements OnInit{
-  listAlbums$ : Observable<Album[]> | null =null;
+  listAlbums : Album[] =[];
   listAlbumsState$ : Observable<AlbumsState> | null =null;
+  albumsState$ : Observable<AlbumsState> | null =null;
   searchForm : FormGroup;
   searchError : string | undefined;
+  countAlbums$ : Observable<number> | undefined;
   readonly albumsStateEnum = AlbumsStateEnum;
   listMusicalGenres$ : Observable<MusicalGenre[]> | null =null;
   error : string | undefined;
@@ -27,21 +30,42 @@ export class AlbumsComponent implements OnInit{
   currentAlbum : any;
   currentFileUpload : any;
   selectedFile : any;
-
+  currentPage : number = 0;
+  size : number =8;
+  totalPages : number =0;
+  pages : number[] = [];
+  totalItems : number = 0;
   constructor(private apiService : ApiService, private store : Store<any>){
     this.searchForm = new FormGroup({
       keyword: new FormControl()
     })
+    this.countAlbums$ = store.select(selectCountAlbums);
   }
   ngOnInit(): void {
     this.host =environment.host;
-    this.listAlbumsState$ = this.store.pipe(
+   this.listAlbumsState$ = this.store.pipe(
       map((state)=> state.albumState)
     );
   this.getListMusicalGenres();
   }
   getListAlbums(){
-    this.store.dispatch(new GetAllAlbumsAction({}));
+   this.store.dispatch(new GetAllAlbumsAction({}));
+  }
+  onPageChange(i : number): void {
+    this.currentPage =i;
+   this.getListAlbumsPagination();
+  }
+  getListAlbumsPagination(){
+    /*this.apiService.getAllAlbumsPagination(this.currentPage).subscribe(
+      data =>{this.listAlbums=data['content'];
+      this.totalPages = data.totalPages;
+      this.pages = new Array<number>(this.totalPages);
+      console.log(this.listAlbums);
+      console.log(this.totalPages);
+      }
+    )*/
+    this.store.dispatch(new GetAlbumsPaginationAction(this.currentPage));
+
   }
   getListMusicalGenres(){
     this.listMusicalGenres$ = this.apiService.getAllMusicalGenres();
@@ -68,5 +92,11 @@ export class AlbumsComponent implements OnInit{
     if(searchForm.valid){
     this.store.dispatch(new SearchAlbumsByBandNameAction(searchForm.value.keyword));
     }
+  }
+  onPreviousPage(){
+
+  }
+  onNextPage(){
+
   }
 }

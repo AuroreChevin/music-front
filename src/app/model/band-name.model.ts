@@ -1,5 +1,10 @@
-export interface BandName {
+export class BandName {
     id : number;
     name : string;
-    country : string
+    country : string;
+    constructor(id : number,name : string,country : string){
+        this.id = id;
+        this.name = name;
+        this.country = country;
+    }
 }

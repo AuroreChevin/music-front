@@ -14,6 +14,9 @@ export class ApiService {
   public getAllAlbums(): Observable<Album[]>{
     return this.http.get<Album[]>(environment.host+'/albums');
   }
+  public getAllAlbumsPagination(page : number):Observable<any>{
+    return this.http.get<Album[]>(environment.host+'/albums/paging?page='+page);
+  }
   public getAllMusicalGenres() : Observable<MusicalGenre[]>{
     return this.http.get<MusicalGenre[]>(environment.host+'/musicalgenres');
   }
