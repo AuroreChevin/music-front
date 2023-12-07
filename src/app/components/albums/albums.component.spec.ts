@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ApiService } from 'src/app/services/api.service';
 import { AlbumsComponent } from './albums.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideMockStore} from '@ngrx/store/testing';
+import { FormBuilder,ReactiveFormsModule } from '@angular/forms';
 
 describe('AlbumsComponent', () => {
   let component: AlbumsComponent;
@@ -8,7 +11,9 @@ describe('AlbumsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AlbumsComponent ]
+      declarations: [ AlbumsComponent ],
+      imports: [HttpClientTestingModule, ReactiveFormsModule ],
+      providers :[ApiService, provideMockStore(), FormBuilder]
     })
     .compileComponents();
 
