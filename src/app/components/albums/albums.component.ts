@@ -47,6 +47,7 @@ export class AlbumsComponent implements OnInit{
       map((state)=> state.albumState)
     );
   this.getListMusicalGenres();
+  window.location.reload();
   }
   getListAlbums(){
    this.store.dispatch(new GetAllAlbumsAction({}));
