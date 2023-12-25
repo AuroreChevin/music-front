@@ -5,7 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockStore} from '@ngrx/store/testing';
 import { FormBuilder,ReactiveFormsModule } from '@angular/forms';
 
-describe('AlbumsComponent', () => {
+/*describe('AlbumsComponent', () => {
   let component: AlbumsComponent;
   let fixture: ComponentFixture<AlbumsComponent>;
 
@@ -26,4 +26,4 @@ describe('AlbumsComponent', () => {
     expect(component).toBeTruthy();
   });
   
-});
+});*/

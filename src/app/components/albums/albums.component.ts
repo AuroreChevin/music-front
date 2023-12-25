@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
@@ -22,7 +22,7 @@ export class AlbumsComponent implements OnInit{
   searchForm : FormGroup;
   searchError : string | undefined;
   countAlbums$ : Observable<number> | undefined;
-  readonly albumsStateEnum = AlbumsStateEnum;
+  albumsStateEnum = AlbumsStateEnum;
   listMusicalGenres$ : Observable<MusicalGenre[]> | null =null;
   error : string | undefined;
   host : string="";

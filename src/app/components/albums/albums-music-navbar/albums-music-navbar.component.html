@@ -1,14 +1,13 @@
-<div class="col-auto col-md-3 col-xl-2 px-sm-2 bg-dark side-nav-content">
+<div class="bg-dark">
     <div class="align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
         <form class="form-inline" [formGroup]="searchForm" (ngSubmit)="onSearch(searchForm)">
-            <span class="fs-5 d-none d-sm-inline" >Albums par nom de groupe</span>
-          <input class="form-control mr-sm-2 mb-2 mt-2" type="text" placeholder="Taper le nom d'un groupe" aria-label="Search"formControlName="keyword" required>
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          <input class="form-control mr-sm-2 mb-2 mt-2" type="text" placeholder="Nom d'un groupe" aria-label="Search"formControlName="keyword" required>
+          <button class="btn btn-outline-success mb-4" type="submit">Search</button>
         </form>
         <ng-container>
           <div *ngIf="searchError" class="alert alert-danger mt-2">{{searchError}}</div>
         </ng-container>
-            <h6 class="fs-5 d-none d-sm-inline mt-5" >Genres musicaux</h6>
+            <h6 class="fs-5 d-sm-inline text-center" >Genres musicaux</h6>
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
             <li class="nav-item">
                 <button class="nav-link align-middle px-0 text-success" (click)="getListAlbums()">All Albums</button>

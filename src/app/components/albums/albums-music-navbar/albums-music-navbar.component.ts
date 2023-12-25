@@ -27,7 +27,6 @@ export class AlbumsMusicNavbarComponent implements OnInit {
   }
   getListAlbums(){
     this.store.dispatch(new GetAllAlbumsAction({}));
-    console.log('yeah')
   }
   getListMusicalGenres(){
     this.listMusicalGenres$ = this.apiService.getAllMusicalGenres();

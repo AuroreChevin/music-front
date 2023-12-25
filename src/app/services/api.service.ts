@@ -6,30 +6,34 @@ import { MusicalGenre } from '../model/musicalgenre.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
-
-  constructor(private http : HttpClient) { }
-  public getAllAlbums(): Observable<Album[]>{
-    return this.http.get<Album[]>(environment.host+'/albums');
+  constructor(private http: HttpClient) {}
+  public getAllAlbums(): Observable<Album[]> {
+    return this.http.get<Album[]>(environment.host + '/albums');
   }
-  public getAllAlbumsPagination(page : number):Observable<any>{
-    return this.http.get<Album[]>(environment.host+'/albums/paging?page='+page);
+  public getAllAlbumsPagination(page: number): Observable<any> {
+    return this.http.get<Album[]>(
+      environment.host + '/albums/paging?page=' + page
+    );
   }
-  public getAllMusicalGenres() : Observable<MusicalGenre[]>{
-    return this.http.get<MusicalGenre[]>(environment.host+'/musicalgenres');
+  public getAllMusicalGenres(): Observable<MusicalGenre[]> {
+    return this.http.get<MusicalGenre[]>(environment.host + '/musicalgenres');
   }
-  public getAlbumsByMusiGenre(id : number): Observable<Album[]>{
-    return this.http.get<Album[]>(environment.host+'/albums/musicalgenres/'+id);
+  public getAlbumsByMusiGenre(id: number): Observable<Album[]> {
+    return this.http.get<Album[]>(
+      environment.host + '/albums/musicalgenres/' + id
+    );
   }
-  public getAlbumsByBandName(keyword : string): Observable<Album[]>{
-    return this.http.get<Album[]>(environment.host+'/albums/bandname/keyword='+keyword);
+  public getAlbumsByBandName(keyword: string): Observable<Album[]> {
+    return this.http.get<Album[]>(
+      environment.host + '/albums/bandname/keyword=' + keyword
+    );
   }
-  public postAlbumsPhoto(file : File, id : number): Observable<any>{
-    let formData : FormData= new FormData();
+  public postAlbumsPhoto(file: File, id: number): Observable<any> {
+    let formData: FormData = new FormData();
     formData.append('file', file);
-    return this.http.post<any>(environment.host+'/photo/'+id, formData);
+    return this.http.post<any>(environment.host + '/photo/' + id, formData);
   }
-
 }
