@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { Album } from "../model/album.model";
+import { Album } from "../models/album.model";
 
 export enum AlbumsActionsTypes{
     GET_ALL_ALBUMS = "Ask all albums",

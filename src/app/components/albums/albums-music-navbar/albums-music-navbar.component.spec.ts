@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AlbumsMusicNavbarComponent } from './albums-music-navbar.component';
-import { ApiService } from 'src/app/services/api.service';
+import { ApiService } from 'src/app/services/album/album.service';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 

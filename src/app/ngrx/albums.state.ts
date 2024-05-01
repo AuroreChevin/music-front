@@ -1,4 +1,4 @@
-import { Album } from "../model/album.model";
+import { Album } from "../models/album.model";
 
 export enum AlbumsStateEnum{
     LOADING = "Loading",

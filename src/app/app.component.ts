@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from './services/api.service';
-import { Album } from './model/album.model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',

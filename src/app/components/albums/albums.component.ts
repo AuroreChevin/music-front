@@ -3,12 +3,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
-import { Album } from 'src/app/model/album.model';
-import { MusicalGenre } from 'src/app/model/musicalgenre.model';
+import { Album } from 'src/app/models/album.model';
+import { MusicalGenre } from 'src/app/models/musicalgenre.model';
 import { GetAlbumsByIdMusicAction, GetAlbumsPaginationAction, GetAllAlbumsAction, SearchAlbumsByBandNameAction } from 'src/app/ngrx/albums.actions';
 import { selectCountAlbums } from 'src/app/ngrx/albums.selectors';
 import { AlbumsState, AlbumsStateEnum } from 'src/app/ngrx/albums.state';
-import { ApiService } from 'src/app/services/api.service';
+import { AlbumService } from 'src/app/services/album/album.service';
+import { MusicalGenreService } from 'src/app/services/album/musical-genre/musical-genre.service';
 
 @Component({
   selector: 'app-albums',
@@ -35,7 +36,7 @@ export class AlbumsComponent implements OnInit{
   totalPages : number =0;
   pages : number[] = [];
   totalItems : number = 0;
-  constructor(private apiService : ApiService, private store : Store<any>){
+  constructor(private albumService : AlbumService, private musicalGenreService : MusicalGenreService, private store : Store<any>){
     this.searchForm = new FormGroup({
       keyword: new FormControl()
     })
@@ -47,7 +48,6 @@ export class AlbumsComponent implements OnInit{
       map((state)=> state.albumState)
     );
   this.getListMusicalGenres();
-  window.location.reload();
   }
   getListAlbums(){
    this.store.dispatch(new GetAllAlbumsAction({}));
@@ -69,7 +69,7 @@ export class AlbumsComponent implements OnInit{
 
   }
   getListMusicalGenres(){
-    this.listMusicalGenres$ = this.apiService.getAllMusicalGenres();
+    this.listMusicalGenres$ = this.musicalGenreService.getAllMusicalGenres();
   }
   getAlbumsByMusic(id : number){
     this.store.dispatch(new GetAlbumsByIdMusicAction(id))
@@ -83,17 +83,17 @@ export class AlbumsComponent implements OnInit{
   }
   onUploadPhoto(){
     this.currentFileUpload = this.selectedFile.item(0);
-    this.apiService.postAlbumsPhoto(this.currentFileUpload,this.currentAlbum.id).subscribe({
+    this.albumService.postAlbumsPhoto(this.currentFileUpload,this.currentAlbum.id).subscribe({
       next : (data) => console.log(data),
       error : (err) => this.error = "problème",
       complete : () => this.error = "",
     })
   }
-  onSearch(searchForm : FormGroup){
+  /*onSearch(searchForm : FormGroup){
     if(searchForm.valid){
     this.store.dispatch(new SearchAlbumsByBandNameAction(searchForm.value.keyword));
     }
-  }
+  }*/
   onPreviousPage(){
 
   }

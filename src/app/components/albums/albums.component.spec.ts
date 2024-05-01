@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ApiService } from 'src/app/services/api.service';
+import { AlbumService } from 'src/app/services/album/album.service';
 import { AlbumsComponent } from './albums.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockStore} from '@ngrx/store/testing';
 import { FormBuilder,ReactiveFormsModule } from '@angular/forms';
 
-/*describe('AlbumsComponent', () => {
+describe('AlbumsComponent', () => {
   let component: AlbumsComponent;
   let fixture: ComponentFixture<AlbumsComponent>;
 
@@ -13,7 +13,7 @@ import { FormBuilder,ReactiveFormsModule } from '@angular/forms';
     await TestBed.configureTestingModule({
       declarations: [ AlbumsComponent ],
       imports: [HttpClientTestingModule, ReactiveFormsModule ],
-      providers :[ApiService, provideMockStore(), FormBuilder]
+      providers :[AlbumService, provideMockStore(), FormBuilder]
     })
     .compileComponents();
 
@@ -26,4 +26,4 @@ import { FormBuilder,ReactiveFormsModule } from '@angular/forms';
     expect(component).toBeTruthy();
   });
   
-});*/
+});

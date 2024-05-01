@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Album } from 'src/app/model/album.model';
-import { MusicalGenre } from 'src/app/model/musicalgenre.model';
+import { Album } from 'src/app/models/album.model';
+import { MusicalGenre } from 'src/app/models/musicalgenre.model';
 import { GetAlbumsByIdMusicAction, GetAllAlbumsAction, SearchAlbumsByBandNameAction } from 'src/app/ngrx/albums.actions';
-import { ApiService } from 'src/app/services/api.service';
+import { AlbumService } from 'src/app/services/album/album.service';
+import { MusicalGenreService } from 'src/app/services/album/musical-genre/musical-genre.service';
 
 @Component({
   selector: 'app-albums-music-navbar',
@@ -16,8 +17,8 @@ export class AlbumsMusicNavbarComponent implements OnInit {
   listAlbums$ : Observable<Album[]> | null =null;
   listMusicalGenres$ : Observable<MusicalGenre[]> | null =null;
   searchForm : FormGroup;
-  searchError : string | undefined;
-  constructor(private apiService : ApiService, private store : Store<any>){
+  searchError : string = '';
+  constructor(private albumService : AlbumService, private musicalGenreService : MusicalGenreService, private store : Store<any>){
     this.searchForm = new FormGroup({
       keyword: new FormControl()
     })
@@ -29,7 +30,7 @@ export class AlbumsMusicNavbarComponent implements OnInit {
     this.store.dispatch(new GetAllAlbumsAction({}));
   }
   getListMusicalGenres(){
-    this.listMusicalGenres$ = this.apiService.getAllMusicalGenres();
+    this.listMusicalGenres$ = this.musicalGenreService.getAllMusicalGenres();
   }
   getAlbumsByMusic(id : number){
     this.store.dispatch(new GetAlbumsByIdMusicAction(id))
@@ -38,5 +39,6 @@ export class AlbumsMusicNavbarComponent implements OnInit {
     if(searchForm.valid){
     this.store.dispatch(new SearchAlbumsByBandNameAction(searchForm.value.keyword));
     }
+    
   }
 }
